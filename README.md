@@ -10,9 +10,20 @@ nodes.
 i.e.
 ```
 $ nvidia-smi | grep CUDA
-
 ```
 
+### Compiling
 ```
-make
+$ ml load nvhpc-hpcx-cuda12/23.9
+$ make
+```
+
+### Running
+```
+# One node experiment
+$ srun --ntasks=2 --gres=gpu:2 --cpus-per-task=12 --pty bash
+$ mpiexec --np 2 ./mpi_matrix_mult --option mpi_gpu  --size 10 --verbose true
+
+# Two node exp
+$ srun --nodes=2 --ntasks=2 --gres=gpu:1 --cpus-per-task=12 --pty bash
 ```

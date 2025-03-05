@@ -1,3 +1,8 @@
+mpi_matrix_mult
+slurm-*.out
+obj
+.*.swp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

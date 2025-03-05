@@ -107,7 +107,7 @@ DESCRIPTION:
 DEBUG:
 FUTURE:
 ***********************************/
-char * parse_cl_options(char ** argv, int * size, bool * verbose);
+char * parse_cl_options(int argc, char ** argv, int * size, bool * verbose);
 
 
 /**********************************

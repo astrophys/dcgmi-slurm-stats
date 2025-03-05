@@ -63,7 +63,7 @@ int main(int argc, char * argv[])
     // Only work with square matrices to make my life easier
     int size;
     //bool verbose = false;
-    char * option = parse_cl_options(argv, &size, &verbose);
+    char * option = parse_cl_options(argc, argv, &size, &verbose);
     int nx = size;
     int ny = size;
     int N = nx * ny;

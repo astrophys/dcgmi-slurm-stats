@@ -250,7 +250,7 @@ DEBUG:
 FUTURE:
     1. Learn an argparse like lib
 ***********************************/
-char * parse_cl_options(char ** argv, int * size, bool * verbose){
+char * parse_cl_options(int argc, char ** argv, int * size, bool * verbose){
     /*************************** Help Section ***************************/
     if(argv[1][1] == 'h' && argv[1][0] == '-'){
         print_help(0);
@@ -274,19 +274,25 @@ char * parse_cl_options(char ** argv, int * size, bool * verbose){
     }else{
         print_help(1);
     }
+    printf("\tnargc = %i\n", argc);
+    fflush(stdout);
     // Verbose
-    if(strcmp("--verbose", argv[5]) == 0){
-        if(strcmp(argv[6], "true") == 0){
-            *verbose = true;
-        }else if(strcmp(argv[6], "false") == 0){
-            *verbose = false;
-        }else{
-            print_help(1);
+    if(argc > 5){
+        if(strcmp("--verbose", argv[5]) == 0){
+            if(strcmp(argv[6], "true") == 0){
+                *verbose = true;
+            }else if(strcmp(argv[6], "false") == 0){
+                *verbose = false;
+            }else{
+                print_help(1);
+            }
         }
-        printf("\tverbose = %i\n", *verbose);
-        fflush(stdout);
+    }else if(argc == 5){
+        *verbose = false;
     }else{
         print_help(1);
     }
+    printf("\tverbose = %i\n", *verbose);
+    fflush(stdout);
     return(option);
 }

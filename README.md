@@ -20,10 +20,13 @@ $ make
 
 ### Running
 ```
-# One node experiment
+# One node exp. (interactive)
 $ srun --ntasks=2 --gres=gpu:2 --cpus-per-task=12 --pty bash
 $ mpiexec --np 2 ./mpi_matrix_mult --option mpi_gpu  --size 10 --verbose true
 
+# One node exp. (non-interactive)
+$ sbatch submit_2task_1node.sh
+
 # Two node exp
-$ srun --nodes=2 --ntasks=2 --gres=gpu:1 --cpus-per-task=12 --pty bash
+$ sbatch submit_2task_2node.sh
 ```

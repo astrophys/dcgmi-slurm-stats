@@ -30,3 +30,10 @@ $ sbatch submit_2task_1node.sh
 # Two node exp
 $ sbatch submit_2task_2node.sh
 ```
+
+### QUESTIONS :
+1. Q : How do I list the running dcgmi jobs?
+2. Q : Can a normal user stop dcgmi stats on group -g 0? 
+
+### Links :
+1. [cuda-gdb with mpi](https://docs.nvidia.com/cuda/cuda-gdb/index.html?highlight=MPI#example-mpi-cuda-application)

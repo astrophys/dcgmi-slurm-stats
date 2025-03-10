@@ -35,5 +35,11 @@ $ sbatch submit_2task_2node.sh
 1. Q : How do I list the running dcgmi jobs?
 2. Q : Can a normal user stop dcgmi stats on group -g 0? 
 
+### NOTES :
+1. KEY CHALLENGE : CUDA_VISIBLE_DEVICES' indexing DOES NOT follow dcgmi's
+                   This means if you're allocated gpu's 0, 2 on a node (per dcgmi's
+                   indexing), CUDA_VISIBLE_DEVICES=0,1 b/c it ALWAYS starts at 0."
+
+
 ### Links :
 1. [cuda-gdb with mpi](https://docs.nvidia.com/cuda/cuda-gdb/index.html?highlight=MPI#example-mpi-cuda-application)

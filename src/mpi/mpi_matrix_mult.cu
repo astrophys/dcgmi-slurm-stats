@@ -200,6 +200,9 @@ int main(int argc, char * argv[])
         }
     }
 
+    printf("Line BEFORE MPI_Finalize\n");
+    fflush(stdout);
+
     MPI_Finalize();
     if(taskID == 0){
         printf("The transfer is finished!\n");

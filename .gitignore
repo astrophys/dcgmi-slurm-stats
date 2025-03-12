@@ -1,4 +1,5 @@
 mpi_matrix_mult
+output
 slurm-*.out
 obj
 .*.swp

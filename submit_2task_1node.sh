@@ -4,16 +4,20 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --output=slurm-out/slurm-%A.out
 
-###SBATCH --gres=gpu:1
-echo "TMPDIR = ${TMPDIR}"
+
+ml purge
+ml load slurm
+module use /home/${USER}/software/hpc_sdk_2023_239/modulefiles
+ml load nvhpc-hpcx-cuda12/23.9
+ml list
 export TMPDIR=${SLURM_SUBMIT_DIR}
 echo "TMPDIR = ${TMPDIR}"
 
 # prolog
 # Check if devices set
 if [ -n ${CUDA_VISIBLE_DEVICES} ]; then
-    mkdir -pv ${TMPDIR}/${SLURM_JOB_ID}
-    export TMPDIR=${TMPDIR}/${SLURM_JOB_ID}
+    mkdir -pv ${TMPDIR}/output/${SLURM_JOB_ID}
+    export TMPDIR=${TMPDIR}/output/${SLURM_JOB_ID}
     
     # Sanity check that CUDA_VISIBLE_DEVICES are same as seen by nvidia-smi
     #export smivis=
@@ -35,8 +39,11 @@ if [ -n ${CUDA_VISIBLE_DEVICES} ]; then
     ## THEN you must start monitoring with a 'dcgmi job'
     ## QUESTION : How do I list the running dcgmi jobs?
     # stdout=$(dcgmi group -c job_${SLURM_JOB_ID} -a ${CUDA_VISIBLE_DEVICES})
+    ###SBATCH --gres=gpu:1
+    echo "TMPDIR = ${TMPDIR}"
+    set | grep "CUDA\|SLURM" &> ${TMPDIR}/set_slurm_env
 
-    stdout=$(dcgmi group -c job_${SLURM_JOB_ID} -a ${SLURM_STEP_GPUS})
+    stdout=$(dcgmi group -c job_${SLURM_JOB_ID} -a ${SLURM_JOB_GPUS})
     if [ $? -eq 0 ]; then
         groupid=$(echo $stdout | awk '{print $10}')
         dcgmi stats -e
@@ -47,12 +54,18 @@ if [ -n ${CUDA_VISIBLE_DEVICES} ]; then
 fi
 
 nvidia-smi -L
-set | grep "CUDA\|SLURM" &> ${TMPDIR}/set_slurm_env
-module use /home/${USER}/software/hpc_sdk_2023_239/modulefiles
-ml load nvhpc-hpcx-cuda12/23.9
 ### NOTE : mpiexec doesn't work right here with GPUs, if used all your processes will run
 ### on the same GPU
 #mpiexec --np 2 ./mpi_matrix_mult --option mpi_gpu  --size 500 --verbose false & 
+
+# Use env vars to access mpirun --mca .. options
+#   --> ompi_info --param pml ucx --level 9     # See UCX options
+#   --> https://docs.open-mpi.org/en/main/mca.html
+export OMPI_MCA_pml=ucx     # From `man mpirun`, same as using mpirun --mca
+# Verbosely print UCX diagnostic info
+export OMPI_MCA_pml_ucx_verbose=3
+# Print to see if hanging receiv requests
+export OMPI_MCA_pml_ucx_request_leak_check=true
 srun ./mpi_matrix_mult --option mpi_gpu  --size 500 --verbose false &
 sleep 10
 nvidia-smi  &> ${TMPDIR}/nvidia-smi_running

@@ -43,7 +43,15 @@ if [ -n ${CUDA_VISIBLE_DEVICES} ]; then
     echo "TMPDIR = ${TMPDIR}"
     set | grep "CUDA\|SLURM" &> ${TMPDIR}/set_slurm_env
 
+    # Consider Checking SLURM_STEP_GPUS first then SLURM_JOB_GPUS
+    #   ${SLURM_STEP_GPUS:-$SLURM_JOB_GPUS}
+    #   --> https://stackoverflow.com/a/65709108/4021436
     stdout=$(dcgmi group -c job_${SLURM_JOB_ID} -a ${SLURM_JOB_GPUS})
+    echo $stdout 
+
+    #### ADD A STEP HERE TO VALIDATE THE GPUs shown to user via nvidia-smi -L
+    #### And seen by dcgmi discovery -l
+
     if [ $? -eq 0 ]; then
         groupid=$(echo $stdout | awk '{print $10}')
         dcgmi stats -e
@@ -62,10 +70,17 @@ nvidia-smi -L
 #   --> ompi_info --param pml ucx --level 9     # See UCX options
 #   --> https://docs.open-mpi.org/en/main/mca.html
 export OMPI_MCA_pml=ucx     # From `man mpirun`, same as using mpirun --mca
+
 # Verbosely print UCX diagnostic info
 export OMPI_MCA_pml_ucx_verbose=3
+
 # Print to see if hanging receiv requests
-export OMPI_MCA_pml_ucx_request_leak_check=true
+#export OMPI_MCA_pml_ucx_request_leak_check=true
+
+export OMPI_MCA_mpi_common_cuda_verbose=10
+
+echo "Sleeping for 300s"
+sleep 300
 srun ./mpi_matrix_mult --option mpi_gpu  --size 500 --verbose false &
 sleep 10
 nvidia-smi  &> ${TMPDIR}/nvidia-smi_running

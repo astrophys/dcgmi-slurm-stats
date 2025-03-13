@@ -174,8 +174,6 @@ int main(int argc, char * argv[])
 
         // GPU
         }else if(strcmp("mpi_gpu", option) == 0){
-            //sprintf(errmsg, "ERROR!!! %s is not yet implemented\n", option);
-            //xit_with_error(errmsg);
             gpu_matrix_multiply<<<1024,32>>>(sendA, recvA, dim, dim, resA, dim, false);
             gpuErrChk(cudaPeekAtLastError());
             gpuErrChk(cudaDeviceSynchronize());
@@ -200,10 +198,34 @@ int main(int argc, char * argv[])
         }
     }
 
+    /*
+    printf("Releasing memory\n");
+    fflush(stdout);
+    if(strcmp("mpi_cpu", option) == 0 || strcmp("mpi_openmp_cpu", option) == 0 || 
+       strcmp("mpi_openmp_cpu_opt", option) == 0){
+        free(dim);
+        free(sendA);
+        free(recvA);
+        free(resA);
+
+    // GPU
+    }else if(strcmp("mpi_gpu", option) == 0){
+        cudaFree(dim);
+        cudaFree(sendA);
+        cudaFree(recvA);
+        cudaFree(resA);
+    }
+    */
+
+
+    /*
+        I believe MPI_Finalize() doesn't play cleanly with UCX / CUDA in the 
+        Nvidia POD env.  I need to learn more about this.
+    */
     printf("Line BEFORE MPI_Finalize\n");
     fflush(stdout);
-
     MPI_Finalize();
+
     if(taskID == 0){
         printf("The transfer is finished!\n");
     }

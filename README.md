@@ -203,7 +203,7 @@ ompi_info --param pml ucx --level 9
 ```
 -->
 
-### Links :
+### References :
 0. [Job Statistics with Nvidia Data Center GPU Manager and Slurm](https://developer.nvidia.com/blog/job-statistics-nvidia-data-center-gpu-manager-slurm/)
 1. [cuda-gdb with mpi](https://docs.nvidia.com/cuda/cuda-gdb/index.html?highlight=MPI#example-mpi-cuda-application)
 2. [Bluefield and DOCA Programming Guides](https://docs.nvidia.com/doca/archive/doca-v1.5.0/index.html)

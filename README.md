@@ -111,7 +111,7 @@ Below is the process for collecting stats from the GPUs
     ```
     [1741636331.473893] [somehost:123] mpool.c:55   UCX  WARN  object 0x55555b12a040 was not returned to mpool CUDA EVENT objects
     ```
-   UCX seems to be some [middleware]((https://docs.nvidia.com/doca/archive/doca-v1.5.0/index.html)
+   UCX seems to be some [middleware](https://docs.nvidia.com/doca/archive/doca-v1.5.0/index.html)
    running on the IB network card. I think I need to do a deeper dive on this to
    understand what is going on here.  I don't think did not observe this behavior
    before with multi-GPU MPI jobs so I think this is very hardware specific.

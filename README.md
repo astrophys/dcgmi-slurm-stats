@@ -143,7 +143,8 @@ Below is the process for collecting stats from the GPUs
 
 ### TO DO
 1. Work on understanding the UCX warnings and mitigating them
-2. Work on understanding using MPI, CUDA, NVLink and Infiniband. It seems quite hardware
+2. Create a python script to parse verbose `dcgmi stats` to have more concise GPU details.
+3. Work on understanding using MPI, CUDA, NVLink and Infiniband. It seems quite hardware
    dependant. Useful resources
 
     a) [UCX Programming Guide](https://docs.nvidia.com/doca/archive/doca-v1.5.0/ucx-programming-guide/index.html)

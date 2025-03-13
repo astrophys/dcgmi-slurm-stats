@@ -145,15 +145,25 @@ Below is the process for collecting stats from the GPUs
 1. Work on understanding the UCX warnings and mitigating them
 2. Work on understanding using MPI, CUDA, NVLink and Infiniband. It seems quite hardware
    dependant. Useful resources
+
     a) [UCX Programming Guide](https://docs.nvidia.com/doca/archive/doca-v1.5.0/ucx-programming-guide/index.html)
+
     b) [OpenUCX Read The Docs](https://openucx.readthedocs.io/en/master/running.html)
+
     c) [OpenMPI - Modular Component Architecture](https://docs.open-mpi.org/en/main/mca.html)
+
     d) [OpenMPI - Infiniband / RoCE Support](https://docs.open-mpi.org/en/v5.0.x/tuning-apps/networking/ib-and-roce.html)
+
     e) [CUDA Unified Memory](https://developer.nvidia.com/blog/unified-memory-cuda-beginners/)
+
     f) [Mixing MPI and CUDA](https://docs.ccv.brown.edu/oscar/gpu-computing/mpi-cuda)
+
     g) [OpenMPI - CUDA](https://docs.open-mpi.org/en/v5.0.x/tuning-apps/networking/cuda.html)
+
     h) [OSU : MPI over IB examples](https://mvapich.cse.ohio-state.edu/benchmarks/)
+
     i) [CUDA C++ Best Practices Guide](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/)
+
     j) [Lawrence Livermore's Awesome MPI Documentation](https://hpc-tutorials.llnl.gov/mpi/)
 
 <!--
